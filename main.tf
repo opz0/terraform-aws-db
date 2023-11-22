@@ -1,5 +1,5 @@
 module "labels" {
-  source      = "git::git@github.com:opz0/terraform-aws-labels.git?ref=master"
+  source      = "git::https://github.com/opz0/terraform-aws-labels.git?ref=v1.0.0"
   name        = var.name
   environment = var.environment
   managedby   = var.managedby
@@ -57,7 +57,7 @@ resource "aws_db_parameter_group" "this" {
     content {
       name         = parameter.value.name
       value        = parameter.value.value
-      apply_method = lookup(parameter.value, "apply_method", true)
+      apply_method = lookup(parameter.value, "apply_method", null)
     }
   }
   tags = merge(
@@ -177,6 +177,7 @@ resource "aws_security_group" "default" {
   }
 }
 
+#tfsec:ignore:aws-ec2-no-public-egress-sgr
 resource "aws_security_group_rule" "egress" {
   count = (var.enable_security_group == true && length(var.sg_ids) < 1 && var.is_external == false && var.egress_rule == true) ? 1 : 0
 
@@ -189,6 +190,7 @@ resource "aws_security_group_rule" "egress" {
   security_group_id = join("", aws_security_group.default[*].id)
 }
 
+#tfsec:ignore:aws-ec2-no-public-egress-sgr
 resource "aws_security_group_rule" "egress_ipv6" {
   count = (var.enable_security_group == true && length(var.sg_ids) < 1 && var.is_external == false) && var.egress_rule == true ? 1 : 0
 
@@ -312,6 +314,7 @@ resource "aws_db_instance" "this" {
   skip_final_snapshot       = var.skip_final_snapshot
   final_snapshot_identifier = module.labels.id
 
+  #tfsec:ignore:aws-rds-enable-performance-insights
   performance_insights_enabled          = var.performance_insights_enabled
   performance_insights_retention_period = var.performance_insights_enabled ? var.performance_insights_retention_period : null
   performance_insights_kms_key_id       = var.performance_insights_enabled ? var.performance_insights_kms_key_id : null

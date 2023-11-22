@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source      = "git::git@github.com:opz0/terraform-aws-vpc.git?ref=master"
+  source      = "git::https://github.com/opz0/terraform-aws-vpc.git?ref=v1.0.0"
   name        = "vpc"
   environment = "test"
   label_order = ["environment", "name"]
@@ -12,12 +12,12 @@ module "vpc" {
 
 
 module "subnets" {
-  source             = "git::git@github.com:opz0/terraform-aws-subnet.git?ref=master"
+  source             = "git::https://github.com/opz0/terraform-aws-subnet.git?ref=v1.0.0"
   name               = "subnets"
   environment        = "test"
   label_order        = ["environment", "name"]
   availability_zones = ["eu-west-1a", "eu-west-1b"]
-  vpc_id             = module.vpc.vpc_id
+  vpc_id             = module.vpc.id
   type               = "public"
   igw_id             = module.vpc.igw_id
   cidr_block         = module.vpc.vpc_cidr_block
@@ -37,7 +37,7 @@ module "mysql" {
   allocated_storage = 5
 
 
-  vpc_id        = module.vpc.vpc_id
+  vpc_id        = module.vpc.id
   allowed_ip    = [module.vpc.vpc_cidr_block]
   allowed_ports = [3306]
 
