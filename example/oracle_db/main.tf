@@ -3,8 +3,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source = "git::git@github.com:opz0/terraform-aws-vpc.git?ref=master"
-
+  source      = "git::https://github.com/opz0/terraform-aws-vpc.git?ref=v1.0.0"
   name        = "vpc"
   environment = "test"
   label_order = ["environment", "name"]
@@ -13,18 +12,18 @@ module "vpc" {
 }
 
 module "private_subnets" {
-  source                          = "git::git@github.com:opz0/terraform-aws-subnet.git?ref=master"
-  name                            = "subnets"
-  environment                     = "test"
-  label_order                     = ["name", "environment"]
-  nat_gateway_enabled             = true
-  availability_zones              = ["eu-west-1a", "eu-west-1b"]
-  vpc_id                          = module.vpc.vpc_id
-  type                            = "public-private"
-  igw_id                          = module.vpc.igw_id
-  cidr_block                      = module.vpc.vpc_cidr_block
-  ipv6_cidr_block                 = module.vpc.ipv6_cidr_block
-  assign_ipv6_address_on_creation = false
+  source              = "git::https://github.com/opz0/terraform-aws-subnet.git?ref=v1.0.0"
+  name                = "subnets"
+  environment         = "test"
+  label_order         = ["name", "environment"]
+  nat_gateway_enabled = true
+  availability_zones  = ["eu-west-1a", "eu-west-1b"]
+  vpc_id              = module.vpc.id
+  type                = "public-private"
+  igw_id              = module.vpc.igw_id
+  cidr_block          = module.vpc.vpc_cidr_block
+  ipv6_cidr_block     = module.vpc.ipv6_cidr_block
+  #  assign_ipv6_address_on_creation = false
 }
 
 module "oracle" {
@@ -52,7 +51,7 @@ module "oracle" {
   multi_az           = false
 
 
-  vpc_id        = module.vpc.vpc_id
+  vpc_id        = module.vpc.id
   allowed_ip    = [module.vpc.vpc_cidr_block]
   allowed_ports = [1521]
 

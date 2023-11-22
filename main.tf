@@ -1,5 +1,5 @@
 module "labels" {
-  source      = "git::git@github.com:opz0/terraform-aws-labels.git?ref=master"
+  source      = "git::https://github.com/opz0/terraform-aws-labels.git?ref=v1.0.0"
   name        = var.name
   environment = var.environment
   managedby   = var.managedby
@@ -57,7 +57,7 @@ resource "aws_db_parameter_group" "this" {
     content {
       name         = parameter.value.name
       value        = parameter.value.value
-      apply_method = lookup(parameter.value, "apply_method", true)
+      apply_method = lookup(parameter.value, "apply_method", null)
     }
   }
   tags = merge(

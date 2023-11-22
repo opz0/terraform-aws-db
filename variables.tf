@@ -8,11 +8,7 @@ variable "repository" {
   default     = ""
   description = "Terraform current module repo"
 }
-variable "attributes" {
-  type        = list(string)
-  default     = []
-  description = "Additional attributes (e.g. `1`)."
-}
+
 variable "environment" {
   type        = string
   default     = ""
