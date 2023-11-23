@@ -168,7 +168,7 @@ resource "aws_iam_role_policy_attachment" "enhanced_monitoring" {
 resource "aws_security_group" "default" {
   count = var.enable_security_group && length(var.sg_ids) < 1 ? 1 : 0
 
-  name        = format("%s-sg", module.labels.id)
+  name        = format("%s-sg-%s", module.labels.id, local.engine)
   vpc_id      = var.vpc_id
   description = var.sg_description
   tags        = module.labels.tags
@@ -260,7 +260,7 @@ data "aws_iam_policy_document" "default" {
 
 resource "aws_db_instance" "this" {
   count             = var.enabled && var.enabled_read_replica ? 1 : 0
-  identifier        = module.labels.name
+  identifier        = format("%s-%s", module.labels.id, local.engine)
   identifier_prefix = local.identifier_prefix
 
   engine            = local.engine
