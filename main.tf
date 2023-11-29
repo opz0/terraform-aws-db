@@ -1,5 +1,5 @@
 module "labels" {
-  source      = "git::https://github.com/opz0/terraform-aws-labels.git?ref=v1.0.0"
+  source      = "git::https://github.com/cypik/terraform-aws-labels.git?ref=v1.0.0"
   name        = var.name
   environment = var.environment
   managedby   = var.managedby
@@ -259,8 +259,8 @@ data "aws_iam_policy_document" "default" {
 }
 
 resource "aws_db_instance" "this" {
-  count             = var.enabled && var.enabled_read_replica ? 1 : 0
-  identifier        = format("%s-%s", module.labels.id, local.engine)
+  count = var.enabled && var.enabled_read_replica ? 1 : 0
+  #  identifier        = format("%s-%s", module.labels.id, local.engine)
   identifier_prefix = local.identifier_prefix
 
   engine            = local.engine
