@@ -20,7 +20,7 @@ To use this module, you can include it in your Terraform configuration. Here's a
 
 ```hcl
 module "mariadb" {
-  source                          = "git::https://github.com/opz0/terraform-aws-db.git?ref=v1.0.0"
+  source                          = "git::https://github.com/cypik/terraform-aws-db.git?ref=v1.0.0"
   name                            = "mariadb"
   environment                     = "test"
   label_order                     = ["environment", "name"]
@@ -36,7 +36,7 @@ module "mariadb" {
   maintenance_window              = "Mon:00:00-Mon:03:00"
   backup_window                   = "03:00-06:00"
   multi_az                        = false
-  vpc_id                          = module.vpc.vpc_id
+  vpc_id                          = module.vpc.id
   allowed_ip                      = [module.vpc.vpc_cidr_block]
   allowed_ports                   = [3306]
   family                          = "mariadb10.6"
@@ -52,7 +52,7 @@ module "mariadb" {
 ## Example: mysql-complete
 ```hcl
 module "mysql" {
-  source                          = "git::https://github.com/opz0/terraform-aws-db.git?ref=v1.0.0"
+  source                          = "git::https://github.com/cypik/terraform-aws-db.git?ref=v1.0.0"
   name                            = "mysql"
   environment                     = "test"
   label_order                     = ["environment", "name"]
@@ -60,7 +60,7 @@ module "mysql" {
   engine_version                  = "8.0.28"
   instance_class                  = "db.m6i.xlarge."
   allocated_storage               = 5
-  vpc_id                          = module.vpc.vpc_id
+  vpc_id                          = module.vpc.id
   allowed_ip                      = [module.vpc.vpc_cidr_block]
   allowed_ports                   = [3306]
   db_name                         = "test"
@@ -111,7 +111,7 @@ module "mysql" {
 ## Example: oracle_db
 ```hcl
 module "oracle" {
-  source                              = "git::https://github.com/opz0/terraform-aws-db.git?ref=v1.0.0"
+  source                              = "git::https://github.com/cypik/terraform-aws-db.git?ref=v1.0.0"
   name                                = "oracle"
   environment                         = "test"
   label_order                         = ["environment", "name"]
@@ -129,7 +129,7 @@ module "oracle" {
   maintenance_window                  = "Mon:00:00-Mon:03:00"
   backup_window                       = "03:00-06:00"
   multi_az                            = false
-  vpc_id                              = module.vpc.vpc_id
+  vpc_id                              = module.vpc.id
   allowed_ip                          = [module.vpc.vpc_cidr_block]
   allowed_ports                       = [1521]
   backup_retention_period             = 0
@@ -145,7 +145,7 @@ module "oracle" {
 ## Example: postgreSQL
 ```hcl
 module "postgresql" {
-  source                          = "git::https://github.com/opz0/terraform-aws-db.git?ref=v1.0.0"
+  source                          = "git::https://github.com/cypik/terraform-aws-db.git?ref=v1.0.0"
   name                            = "postgresql"
   environment                     = "test"
   label_order                     = ["environment", "name"]
@@ -163,7 +163,7 @@ module "postgresql" {
   maintenance_window              = "Mon:00:00-Mon:03:00"
   backup_window                   = "03:00-06:00"
   multi_az                        = false
-  vpc_id                          = module.vpc.vpc_id
+  vpc_id                          = module.vpc.id
   allowed_ip                      = [module.vpc.vpc_cidr_block]
   allowed_ports                   = [5432]
   backup_retention_period         = 0
@@ -178,7 +178,7 @@ module "postgresql" {
 ## Example: replica-mysql
 ```hcl
 module "mysql" {
-  source                          = "git::https://github.com/opz0/terraform-aws-db.git?ref=v1.0.0"
+  source                          = "git::https://github.com/cypik/terraform-aws-db.git?ref=v1.0.0"
   name                            = "rds"
   environment                     = "test"
   label_order                     = ["environment", "name"]
@@ -200,7 +200,7 @@ module "mysql" {
   maintenance_window              = "Mon:00:00-Mon:03:00"
   backup_window                   = "03:00-06:00"
   multi_az                        = true
-  vpc_id                          = module.vpc.vpc_id
+  vpc_id                          = module.vpc.id
   allowed_ip                      = [module.vpc.vpc_cidr_block]
   allowed_ports                   = [3306]
   backup_retention_period         = 1
@@ -259,10 +259,10 @@ module "mysql" {
 - Other relevant security group outputs (modify as needed).
 
 ## Example
-For detailed examples on how to use this module, please refer to the 'example' directory within this repository.
+For detailed examples on how to use this module, please refer to the '[example](https://github.com/cypik/terraform-aws-db/tree/master/example)' directory within this repository.
 
 ## Author
 Your Name Replace '[License Name]' and '[Your Name]' with the appropriate license and your information. Feel free to expand this README with additional details or usage instructions as needed for your specific use case.
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/opz0/terraform-aws-db/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/cypik/terraform-aws-db/blob/master/LICENSE) file for details.

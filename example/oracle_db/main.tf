@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source      = "git::https://github.com/opz0/terraform-aws-vpc.git?ref=v1.0.0"
+  source      = "git::https://github.com/cypik/terraform-aws-vpc.git?ref=v1.0.0"
   name        = "vpc"
   environment = "test"
   label_order = ["environment", "name"]
@@ -12,7 +12,7 @@ module "vpc" {
 }
 
 module "private_subnets" {
-  source              = "git::https://github.com/opz0/terraform-aws-subnet.git?ref=v1.0.0"
+  source              = "git::https://github.com/cypik/terraform-aws-subnet.git?ref=v1.0.0"
   name                = "subnets"
   environment         = "test"
   label_order         = ["name", "environment"]
