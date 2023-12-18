@@ -3,9 +3,10 @@ variable "name" {
   default     = ""
   description = "Name  (e.g. `app` or `cluster`)."
 }
+
 variable "repository" {
   type        = string
-  default     = ""
+  default     = "https://github.com/cypik/terraform-aws-s3"
   description = "Terraform current module repo"
 }
 
@@ -17,13 +18,13 @@ variable "environment" {
 
 variable "label_order" {
   type        = list(any)
-  default     = []
+  default     = ["name", "environment"]
   description = "Label order, e.g. `name`,`application`."
 }
 
 variable "managedby" {
   type        = string
-  default     = ""
+  default     = "cypik"
   description = "ManagedBy, eg 'cypik'."
 }
 
