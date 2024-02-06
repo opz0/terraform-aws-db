@@ -1,16 +1,18 @@
 # Terraform-aws-db
 
-# AWS Infrastructure Provisioning with Terraform
+# Terraform AWS Cloud DB Module
 
 ## Table of Contents
 - [Introduction](#introduction)
 - [Usage](#usage)
-- [Module Inputs](#module-inputs)
-- [Module Outputs](#module-outputs)
+- [Examples](#Examples)
+- [Author](#Author)
 - [License](#license)
+- [Inputs](#inputs)
+- [Outputs](#outputs)
 
 ## Introduction
-This module is basically combination of Terraform open source and includes automatation tests and examples. It also helps to create and improve your infrastructure with minimalistic code instead of maintaining the whole infrastructure code yourself.
+This Terraform module creates an AWS Database Service- AWS (DB) along with additional configuration options.
 ## Usage
 To use this module, you can include it in your Terraform configuration. Here's an example of how to use it:
 
@@ -20,7 +22,8 @@ To use this module, you can include it in your Terraform configuration. Here's a
 
 ```hcl
 module "mariadb" {
-  source                          = "git::https://github.com/cypik/terraform-aws-db.git?ref=v1.0.0"
+  source                          = "cypik/mariadb/aws"
+  version                         = "1.0.1"
   name                            = "mariadb"
   environment                     = "test"
   label_order                     = ["environment", "name"]
@@ -52,7 +55,8 @@ module "mariadb" {
 ## Example: mysql-complete
 ```hcl
 module "mysql" {
-  source                          = "git::https://github.com/cypik/terraform-aws-db.git?ref=v1.0.0"
+  source                          = "cypik/mysql/aws"
+  version                         =  "1.0.1"
   name                            = "mysql"
   environment                     = "test"
   label_order                     = ["environment", "name"]
@@ -111,7 +115,8 @@ module "mysql" {
 ## Example: oracle_db
 ```hcl
 module "oracle" {
-  source                              = "git::https://github.com/cypik/terraform-aws-db.git?ref=v1.0.0"
+  source                              = "cypik/oracle/aws"
+  version                             = "1.0.1"
   name                                = "oracle"
   environment                         = "test"
   label_order                         = ["environment", "name"]
@@ -145,7 +150,8 @@ module "oracle" {
 ## Example: postgreSQL
 ```hcl
 module "postgresql" {
-  source                          = "git::https://github.com/cypik/terraform-aws-db.git?ref=v1.0.0"
+  source                          = "cypik/postgresql/aws"
+  version                         = "1.0.1"
   name                            = "postgresql"
   environment                     = "test"
   label_order                     = ["environment", "name"]
@@ -178,7 +184,8 @@ module "postgresql" {
 ## Example: replica-mysql
 ```hcl
 module "mysql" {
-  source                          = "git::https://github.com/cypik/terraform-aws-db.git?ref=v1.0.0"
+  source                          = "cypik/mysql/aws"
+  version                         = "1.0.1"
   name                            = "rds"
   environment                     = "test"
   label_order                     = ["environment", "name"]
@@ -214,55 +221,12 @@ module "mysql" {
   ssm_parameter_endpoint_enabled  = true
 }
 ```
-## Module Inputs
-
-- `name`: A name for your db.
-- `engine`: The database engine to use.
-- `engine_version`: The engine version to use.
-- `instance_class` :  The instance type of the RDS instance.
-- `engine_name` : The name of the database to create when the DB instance is created.
-- `allocated_storage` : The allocated storage in gibibytes.
-- `db_name` : The name of the database to create when the DB instance is created.
-- `username` :  Username for the master DB user.
-- `passwoed` : Password for the master DB user.
-- `port` :The port on which the DB accepts connections.
-- `maintenance_window` :  The window to perform maintenance in.
-- `backup_window` : The daily time range (in UTC) during which automated backups are created if they are enabled.
-- `multi_az` :  Specifies if the RDS instance is multi-AZ
-- `enabled_cloudwatch_logs_exports` :  Set of log types to enable for exporting to CloudWatch logs.
-- `major_engine_version` : Specifies the major version of the engine that this option group should be associated with.
-- `allocated_storage` :  The allocated storage in gibibytes.
-- `multi_az` :  Specifies if the RDS instance is multi-AZ
-- `backup_retention_period`: The days to retain backups for.
-- `identifier` :  The name of the RDS instance, if omitted, Terraform will assign a random, unique identifier.
-- `snapshot_identifier` : Specifies whether or not to create this database from a snapshot.
-
-- For security group settings, you can configure the ingress and egress rules using variables like:
-
-## Module Outputs
-- `db_instance_arn` : The ARN of the RDS instance.
-- `db_instance_availability_zone`: The availability zone of the RDS instance.
-- `db_instance_endpoint` : The connection endpoint.
-- `db_instance_engine`: The database engine.
-- `db_instance_id` : The RDS instance ID.
-- `db_instance_address` : db_instance_address.
-- `db_instance_hosted_zone_id` : The canonical hosted zone ID of the DB instance.
-- `db_instance_status` : The RDS instance status
-- `db_instance_name` : The database name
-- `master_db_instance_resource_id` : The RDS Resource ID of this instance.
-- `master_db_instance_username` : The master username for the database.
-- `master_db_instance_password` : The database password.
-- `master_db_instance_port` : The database port.
-- `master_db_subnet_group_id` : The db subnet group name.
-- `master_db_instance_cloudwatch_log_groups` : Map of CloudWatch log groups created and their attributes.
-
-- Other relevant security group outputs (modify as needed).
 
 ## Example
 For detailed examples on how to use this module, please refer to the '[example](https://github.com/cypik/terraform-aws-db/tree/master/example)' directory within this repository.
 
 ## Author
-Your Name Replace '[License Name]' and '[Your Name]' with the appropriate license and your information. Feel free to expand this README with additional details or usage instructions as needed for your specific use case.
+Your Name Replace **MIT** and **Cypik** with the appropriate license and your information. Feel free to expand this README with additional details or usage instructions as needed for your specific use case.
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/cypik/terraform-aws-db/blob/master/LICENSE) file for details.
+This project is licensed under the **MIT** License - see the [LICENSE](https://github.com/cypik/terraform-aws-db/blob/master/LICENSE) file for details.
