@@ -4,7 +4,7 @@ provider "aws" {
 
 module "vpc" {
   source      = "cypik/vpc/aws"
-  version      = "1.0.1"
+  version     = "1.0.1"
   name        = "vpc"
   environment = "test"
   label_order = ["environment", "name"]
