@@ -24,7 +24,7 @@ variable "label_order" {
 
 variable "managedby" {
   type        = string
-  default     = "cypik"
+  default     = "opsZero"
   description = "ManagedBy, eg 'cypik'."
 }
 
