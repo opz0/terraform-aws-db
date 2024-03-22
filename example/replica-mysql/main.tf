@@ -43,9 +43,9 @@ module "mysql" {
   enabled_read_replica   = true
   enabled_replica        = true
 
-  db_name  = "replica"
-  username = "replica_mysql"
-  password = "clkjvnsdikjhdsijfsdli"
+  db_name                     = "replica"
+  username                    = "replica_mysql"
+  manage_master_user_password = true
 
   port               = 3306
   maintenance_window = "Mon:00:00-Mon:03:00"
