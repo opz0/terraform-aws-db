@@ -390,8 +390,7 @@ resource "aws_db_instance" "read" {
 
   db_name                             = null
   username                            = null
-  password                            = var.manage_master_user_password != null ? null : local.password
-  manage_master_user_password         = var.manage_master_user_password
+  password                            = local.password
   port                                = var.port
   domain                              = var.domain
   domain_iam_role_name                = var.domain_iam_role_name
