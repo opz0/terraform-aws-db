@@ -165,7 +165,7 @@ variable "password" {
 variable "manage_master_user_password" {
   type        = bool
   default     = null
-  description = "et to true to allow RDS to manage the master user password in Secrets Manager. Cannot be set if password is provided."
+  description = "Set to true to allow RDS to manage the master user password in Secrets Manager. Cannot be set if password is provided."
 }
 
 variable "port" {
