@@ -36,7 +36,7 @@ module "mysql" {
   engine_version         = "8.0"
   instance_class         = "db.t4g.large"
   replica_instance_class = "db.t4g.large"
-  allocated_storage      = 20
+  allocated_storage      = 32
   identifier             = ""
   snapshot_identifier    = ""
   kms_key_id             = ""
@@ -45,7 +45,7 @@ module "mysql" {
 
   db_name  = "replica"
   username = "replica_mysql"
-  password = "clkjvnsdikjhdsijfsdli"
+  password = "cdsjhcjjkxnna5s"
 
   port               = 3306
   maintenance_window = "Mon:00:00-Mon:03:00"
