@@ -18,7 +18,6 @@ locals {
   db_subnet_group_name = var.enabled_db_subnet_group ? join("", aws_db_subnet_group.this[*].id) : var.db_subnet_group_name
 
   username       = var.replicate_source_db != null ? null : var.username
-  password       = var.password == "" ? join("", random_id.password[*].b64_url) : var.password
   engine         = var.replicate_source_db != null ? null : var.engine
   engine_version = var.replicate_source_db != null ? null : var.engine_version
   //  name_prefix = var.use_name_prefix ? "${var.name}-" : null
@@ -215,27 +214,6 @@ resource "aws_security_group_rule" "ingress" {
   security_group_id = join("", aws_security_group.default[*].id)
 }
 
-resource "aws_kms_key" "default" {
-  count = var.kms_key_enabled && var.kms_key_id == "" ? 1 : 0
-
-  description              = var.kms_description
-  key_usage                = var.key_usage
-  deletion_window_in_days  = var.deletion_window_in_days
-  is_enabled               = var.is_enabled
-  enable_key_rotation      = var.enable_key_rotation
-  customer_master_key_spec = var.customer_master_key_spec
-  policy                   = data.aws_iam_policy_document.default.json
-  multi_region             = var.kms_multi_region
-  tags                     = module.labels.tags
-}
-
-resource "aws_kms_alias" "default" {
-  count = var.kms_key_enabled && var.kms_key_id == "" ? 1 : 0
-
-  name          = coalesce(var.alias, format("alias/%v", module.labels.id))
-  target_key_id = var.kms_key_id == "" ? join("", aws_kms_key.default[*].id) : var.kms_key_id
-}
-
 data "aws_partition" "current" {}
 data "aws_caller_identity" "current" {}
 data "aws_iam_policy_document" "default" {
@@ -268,14 +246,12 @@ resource "aws_db_instance" "this" {
   instance_class    = var.instance_class
   allocated_storage = var.allocated_storage
   storage_type      = var.storage_type
-  storage_encrypted = var.storage_encrypted
-  kms_key_id        = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
+  storage_encrypted = true
   license_model     = var.license_model
 
-  db_name                             = var.db_name
-  username                            = local.username
-  password                            = var.manage_master_user_password != null ? null : local.password
-  manage_master_user_password         = var.manage_master_user_password
+  db_name = var.db_name
+  # username                            = local.username
+  manage_master_user_password         = true
   port                                = var.port
   domain                              = var.domain
   domain_iam_role_name                = var.domain_iam_role_name
@@ -385,7 +361,6 @@ resource "aws_db_instance" "read" {
   allocated_storage = var.allocated_storage
   storage_type      = var.storage_type
   storage_encrypted = var.storage_encrypted
-  kms_key_id        = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
   license_model     = var.license_model
 
   db_name                             = null

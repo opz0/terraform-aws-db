@@ -162,12 +162,6 @@ variable "password" {
   description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file"
 }
 
-variable "manage_master_user_password" {
-  type        = bool
-  default     = null
-  description = "Set to true to allow RDS to manage the master user password in Secrets Manager. Cannot be set if password is provided."
-}
-
 variable "port" {
   type        = string
   default     = null
