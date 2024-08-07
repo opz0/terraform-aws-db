@@ -357,7 +357,7 @@ resource "aws_db_instance" "read" {
   custom_iam_instance_profile         = var.custom_iam_instance_profile
 
   vpc_security_group_ids = length(var.sg_ids) < 1 ? aws_security_group.default[*].id : var.sg_ids
-  db_subnet_group_name   = var.db_subnet_group_name
+  db_subnet_group_name   = aws_db_subnet_group.this.id
   parameter_group_name   = join("", aws_db_instance.this[*].parameter_group_name)
   option_group_name      = join("", aws_db_instance.this[*].option_group_name)
   network_type           = var.network_type
