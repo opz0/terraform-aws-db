@@ -4,36 +4,6 @@ variable "name" {
   description = "Name  (e.g. `app` or `cluster`)."
 }
 
-variable "repository" {
-  type        = string
-  default     = "https://github.com/opszero/terraform-aws-rds"
-  description = "Terraform current module repo"
-}
-
-variable "environment" {
-  type        = string
-  default     = ""
-  description = "Environment (e.g. `prod`, `dev`, `staging`)."
-}
-
-variable "label_order" {
-  type        = list(any)
-  default     = ["name", "environment"]
-  description = "Label order, e.g. `name`,`application`."
-}
-
-variable "managedby" {
-  type        = string
-  default     = "opsZero"
-  description = "ManagedBy, eg 'opsZero'."
-}
-
-variable "delimiter" {
-  type        = string
-  default     = "-"
-  description = "Delimiter to be used between `organization`, `environment`, `name` and `attributes`."
-}
-
 variable "identifier" {
   type        = string
   default     = ""

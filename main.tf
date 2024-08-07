@@ -407,7 +407,7 @@ resource "aws_db_instance" "read" {
 resource "aws_ssm_parameter" "secret-endpoint" {
   count = var.ssm_parameter_endpoint_enabled ? 1 : 0
 
-  name        = format("/%s/%s/endpoint", var.environment, var.name)
+  name        = format("/rds/%s/endpoint", var.name)
   description = var.ssm_parameter_description
   type        = var.ssm_parameter_type
   value       = join("", aws_db_instance.this[*].endpoint)
