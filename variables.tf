@@ -411,7 +411,7 @@ variable "replica_instance_class" {
 
 variable "enabled_read_replica" {
   type        = bool
-  default     = true
+  default     = false
   description = "A list of enabled read replica"
 }
 
