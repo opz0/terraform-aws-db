@@ -415,12 +415,6 @@ variable "enabled_read_replica" {
   description = "A list of enabled read replica"
 }
 
-variable "enabled_replica" {
-  type        = bool
-  default     = false
-  description = "A list of enabled replica"
-}
-
 variable "db_subnet_group_tags" {
   type        = map(any)
   default     = {}

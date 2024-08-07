@@ -225,7 +225,6 @@ data "aws_iam_policy_document" "default" {
 }
 
 resource "aws_db_instance" "this" {
-  count             = var.enabled_read_replica ? 1 : 0
   identifier        = format("%s-%s", module.labels.id, local.engine)
   identifier_prefix = local.identifier_prefix
 
@@ -336,7 +335,7 @@ resource "aws_db_instance" "this" {
 }
 
 resource "aws_db_instance" "read" {
-  count = var.enabled_read_replica && var.enabled_replica ? 1 : 0
+  count = var.enabled_read_replica ? 1 : 0
 
   identifier        = format("%s-replica", module.labels.id)
   identifier_prefix = local.identifier_prefix
