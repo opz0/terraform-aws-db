@@ -119,7 +119,6 @@ resource "aws_cloudwatch_log_group" "this" {
 
   name              = "/aws/rds/instance/${module.labels.id}/${each.value}"
   retention_in_days = var.cloudwatch_log_group_retention_in_days
-  kms_key_id        = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
 
   tags = merge(
     module.labels.tags,
@@ -209,7 +208,7 @@ resource "aws_security_group_rule" "ingress" {
   type              = "ingress"
   from_port         = element(var.allowed_ports, count.index)
   to_port           = element(var.allowed_ports, count.index)
-  protocol          = var.protocol
+  protocol          = "all"
   cidr_blocks       = var.allowed_ip
   security_group_id = join("", aws_security_group.default[*].id)
 }
@@ -294,7 +293,6 @@ resource "aws_db_instance" "this" {
   #tfsec:ignore:aws-rds-enable-performance-insights
   performance_insights_enabled          = var.performance_insights_enabled
   performance_insights_retention_period = var.performance_insights_enabled ? var.performance_insights_retention_period : null
-  performance_insights_kms_key_id       = var.performance_insights_enabled ? var.performance_insights_kms_key_id : null
 
   replica_mode            = var.replica_mode
   backup_retention_period = length(var.blue_green_update) > 0 ? coalesce(var.backup_retention_period, 1) : var.backup_retention_period
@@ -405,7 +403,6 @@ resource "aws_db_instance" "read" {
 
   performance_insights_enabled          = var.performance_insights_enabled
   performance_insights_retention_period = var.performance_insights_enabled ? var.performance_insights_retention_period : null
-  performance_insights_kms_key_id       = var.performance_insights_enabled ? var.performance_insights_kms_key_id : null
 
   replicate_source_db     = join("", aws_db_instance.this[*].identifier)
   replica_mode            = var.replica_mode
@@ -467,5 +464,4 @@ resource "aws_ssm_parameter" "secret-endpoint" {
   description = var.ssm_parameter_description
   type        = var.ssm_parameter_type
   value       = join("", aws_db_instance.this[*].endpoint)
-  key_id      = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
 }

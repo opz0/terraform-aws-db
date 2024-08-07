@@ -84,12 +84,6 @@ variable "storage_encrypted" {
   description = "Specifies whether the DB instance is encrypted"
 }
 
-variable "kms_key_id" {
-  type        = string
-  default     = ""
-  description = "The ARN for the KMS encryption key. If creating an encrypted replica, set this to the destination KMS ARN. If storage_encrypted is set to true and kms_key_id is not specified the default KMS key created in your account will be used"
-}
-
 variable "replicate_source_db" {
   type        = string
   default     = null
@@ -325,12 +319,6 @@ variable "performance_insights_retention_period" {
   description = "The amount of time in days to retain Performance Insights data. Either 7 (7 days) or 731 (2 years)."
 }
 
-variable "performance_insights_kms_key_id" {
-  type        = string
-  default     = null
-  description = "The ARN for the KMS key to encrypt Performance Insights data."
-}
-
 variable "max_allocated_storage" {
   type        = number
   default     = 0
@@ -560,67 +548,16 @@ variable "sg_ingress_description" {
   description = "Description of the ingress rule"
 }
 
-variable "protocol" {
-  type        = string
-  default     = "tcp"
-  description = "The protocol. If not icmp, tcp, udp, or all use the."
-}
-
-variable "kms_key_enabled" {
-  type        = bool
-  default     = true
-  description = "Specifies whether the kms is enabled or disabled."
-}
-
-variable "kms_description" {
-  type        = string
-  default     = "Parameter Store KMS master key"
-  description = "The description of the key as viewed in AWS console."
-}
-
-variable "key_usage" {
-  type        = string
-  default     = "ENCRYPT_DECRYPT"
-  sensitive   = true
-  description = "Specifies the intended use of the key. Defaults to ENCRYPT_DECRYPT, and only symmetric encryption and decryption are supported."
-}
-
 variable "deletion_window_in_days" {
   type        = number
   default     = 7
   description = "Duration in days after which the key is deleted after destruction of the resource."
 }
 
-variable "is_enabled" {
-  type        = bool
-  default     = true
-  description = "Specifies whether the key is enabled."
-}
-
 variable "enable_key_rotation" {
   type        = string
   default     = true
   description = "Specifies whether key rotation is enabled."
-}
-
-variable "customer_master_key_spec" {
-  type        = string
-  default     = "SYMMETRIC_DEFAULT"
-  sensitive   = true
-  description = "Specifies whether the key contains a symmetric key or an asymmetric key pair and the encryption algorithms or signing algorithms that the key supports. Valid values: SYMMETRIC_DEFAULT, RSA_2048, RSA_3072, RSA_4096, ECC_NIST_P256, ECC_NIST_P384, ECC_NIST_P521, or ECC_SECG_P256K1. Defaults to SYMMETRIC_DEFAULT."
-
-}
-
-variable "kms_multi_region" {
-  type        = bool
-  default     = false
-  description = "Indicates whether the KMS key is a multi-Region (true) or regional (false) key."
-}
-
-variable "alias" {
-  type        = string
-  default     = "alias/rds"
-  description = "The display name of the alias. The name must start with the word `alias` followed by a forward slash."
 }
 
 variable "ssm_parameter_description" {
