@@ -12,7 +12,6 @@ locals {
   identifier_prefix    = var.use_identifier_prefix ? "${var.identifier}-" : null
   db_subnet_group_name = var.enabled_db_subnet_group ? join("", aws_db_subnet_group.this[*].id) : var.db_subnet_group_name
 
-  username       = var.replicate_source_db != null ? null : var.username
   engine         = var.replicate_source_db != null ? null : var.engine
   engine_version = var.replicate_source_db != null ? null : var.engine_version
   //  name_prefix = var.use_name_prefix ? "${var.name}-" : null
@@ -239,8 +238,7 @@ resource "aws_db_instance" "this" {
   storage_encrypted = true
   license_model     = var.license_model
 
-  db_name = var.db_name
-  # username                            = local.username
+  db_name                             = var.db_name
   manage_master_user_password         = true
   port                                = var.port
   domain                              = var.domain
@@ -353,8 +351,6 @@ resource "aws_db_instance" "read" {
   license_model     = var.license_model
 
   db_name                             = null
-  username                            = null
-  password                            = local.password
   port                                = var.port
   domain                              = var.domain
   domain_iam_role_name                = var.domain_iam_role_name
