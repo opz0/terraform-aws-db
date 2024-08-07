@@ -174,12 +174,6 @@ variable "copy_tags_to_snapshot" {
   description = "On delete, copy all Instance tags to the final snapshot"
 }
 
-variable "db_subnet_group_name" {
-  type        = string
-  default     = ""
-  description = "Name of DB subnet group. DB instance will be created in the VPC associated with the DB subnet group. If unspecified, will be created in the default VPC"
-}
-
 variable "availability_zone" {
   description = "The Availability Zone of the RDS instance"
   type        = string
@@ -407,12 +401,6 @@ variable "subnet_ids" {
   type        = list(string)
   default     = []
   description = "A list of VPC Subnet IDs to launch in."
-}
-
-variable "enabled_db_subnet_group" {
-  type        = bool
-  default     = true
-  description = "A list of enabled db subnet group"
 }
 
 variable "replica_instance_class" {

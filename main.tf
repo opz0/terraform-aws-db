@@ -10,7 +10,7 @@ module "labels" {
 locals {
 
   identifier_prefix    = var.use_identifier_prefix ? "${var.identifier}-" : null
-  db_subnet_group_name = var.enabled_db_subnet_group ? join("", aws_db_subnet_group.this[*].id) : var.db_subnet_group_name
+  db_subnet_group_name = aws_db_subnet_group.this.id
 
   engine         = var.replicate_source_db != null ? null : var.engine
   engine_version = var.replicate_source_db != null ? null : var.engine_version
@@ -29,7 +29,6 @@ resource "random_id" "snapshot_identifier" {
 }
 
 resource "aws_db_subnet_group" "this" {
-  count       = var.enabled_db_subnet_group ? 1 : 0
   name        = module.labels.id
   description = local.description
   subnet_ids  = var.subnet_ids
@@ -249,8 +248,8 @@ resource "aws_db_instance" "this" {
 
   vpc_security_group_ids = length(var.sg_ids) < 1 ? aws_security_group.default[*].id : var.sg_ids
   db_subnet_group_name   = local.db_subnet_group_name
-  parameter_group_name   = join("", aws_db_parameter_group.this[*].name)
-  option_group_name      = join("", aws_db_option_group.this[*].name)
+  parameter_group_name   = join("", aws_db_parameter_group.this.name)
+  option_group_name      = join("", aws_db_option_group.this.name)
   network_type           = var.network_type
 
   availability_zone   = var.availability_zone
