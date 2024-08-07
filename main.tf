@@ -1,12 +1,3 @@
-module "labels" {
-  source      = "git::https://github.com/cypik/terraform-aws-labels.git?ref=v1.0.0"
-  name        = var.name
-  environment = var.environment
-  managedby   = var.managedby
-  label_order = var.label_order
-  repository  = var.repository
-}
-
 locals {
 
   identifier_prefix    = var.use_identifier_prefix ? "${var.identifier}-" : null
@@ -29,17 +20,14 @@ resource "random_id" "snapshot_identifier" {
 }
 
 resource "aws_db_subnet_group" "this" {
-  name        = module.labels.id
+  name        = var.name
   description = local.description
   subnet_ids  = var.subnet_ids
-  tags = merge(
-    module.labels.tags,
-    var.db_subnet_group_tags
-  )
+  tags        = var.tags
 }
 
 resource "aws_db_parameter_group" "this" {
-  name        = module.labels.id
+  name        = var.name
   description = local.description
   family      = var.family
   dynamic "parameter" {
@@ -50,13 +38,7 @@ resource "aws_db_parameter_group" "this" {
       apply_method = lookup(parameter.value, "apply_method", null)
     }
   }
-  tags = merge(
-    module.labels.tags,
-    var.db_parameter_group_tags,
-    {
-      "Name" = format("%s%sparameter", module.labels.id, var.delimiter)
-    }
-  )
+  tags = var.tags
   lifecycle {
     create_before_destroy = true
   }
@@ -64,7 +46,7 @@ resource "aws_db_parameter_group" "this" {
 
 
 resource "aws_db_option_group" "this" {
-  name                     = module.labels.id
+  name                     = var.name
   option_group_description = local.description
   engine_name              = var.engine_name
   major_engine_version     = var.major_engine_version
@@ -86,13 +68,7 @@ resource "aws_db_option_group" "this" {
     }
   }
 
-  tags = merge(
-    module.labels.tags,
-    var.db_option_group_tags,
-    {
-      "Name" = format("%s%soption-group", module.labels.id, var.delimiter)
-    }
-  )
+  tags = var.tags
 
   timeouts {
     delete = lookup(var.timeouts, "delete", null)
@@ -106,13 +82,10 @@ resource "aws_db_option_group" "this" {
 resource "aws_cloudwatch_log_group" "this" {
   for_each = toset([for log in var.enabled_cloudwatch_logs_exports : log if var.enabled_cloudwatch_log_group && !var.use_identifier_prefix])
 
-  name              = "/aws/rds/instance/${module.labels.id}/${each.value}"
+  name              = "/aws/rds/instance/${var.name}/${each.value}"
   retention_in_days = var.cloudwatch_log_group_retention_in_days
 
-  tags = merge(
-    module.labels.tags,
-    var.cloudwatch_log_group_tags
-  )
+  tags = var.tags
 }
 
 data "aws_iam_policy_document" "enhanced_monitoring" {
@@ -131,18 +104,12 @@ data "aws_iam_policy_document" "enhanced_monitoring" {
 resource "aws_iam_role" "enhanced_monitoring" {
   count = var.enabled_monitoring_role ? 1 : 0
 
-  name                 = module.labels.id
+  name                 = var.name
   assume_role_policy   = data.aws_iam_policy_document.enhanced_monitoring.json
   description          = var.monitoring_role_description
   permissions_boundary = var.monitoring_role_permissions_boundary
 
-  tags = merge(
-    {
-      "Name" = format("%s", var.monitoring_role_name)
-    },
-    module.labels.tags,
-    var.mysql_iam_role_tags
-  )
+  tags = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "enhanced_monitoring" {
@@ -155,10 +122,10 @@ resource "aws_iam_role_policy_attachment" "enhanced_monitoring" {
 resource "aws_security_group" "default" {
   count = var.enable_security_group && length(var.sg_ids) < 1 ? 1 : 0
 
-  name        = format("%s-sg-%s", module.labels.id, local.engine)
+  name        = var.name
   vpc_id      = var.vpc_id
   description = var.sg_description
-  tags        = module.labels.tags
+  tags        = var.tags
   lifecycle {
     create_before_destroy = true
   }
@@ -225,7 +192,7 @@ data "aws_iam_policy_document" "default" {
 }
 
 resource "aws_db_instance" "this" {
-  identifier        = format("%s-%s", module.labels.id, local.engine)
+  identifier        = var.name
   identifier_prefix = local.identifier_prefix
 
   engine            = local.engine
@@ -276,7 +243,7 @@ resource "aws_db_instance" "this" {
   snapshot_identifier       = var.snapshot_identifier
   copy_tags_to_snapshot     = var.copy_tags_to_snapshot
   skip_final_snapshot       = var.skip_final_snapshot
-  final_snapshot_identifier = module.labels.id
+  final_snapshot_identifier = var.name
 
   #tfsec:ignore:aws-rds-enable-performance-insights
   performance_insights_enabled          = var.performance_insights_enabled
@@ -320,10 +287,7 @@ resource "aws_db_instance" "this" {
     }
   }
 
-  tags = merge(
-    module.labels.tags,
-    var.db_instance_this_tags
-  )
+  tags = var.tags
 
   depends_on = [aws_cloudwatch_log_group.this]
 
@@ -338,7 +302,7 @@ resource "aws_db_instance" "this" {
 resource "aws_db_instance" "read" {
   count = var.enabled_read_replica ? 1 : 0
 
-  identifier        = format("%s-replica", module.labels.id)
+  identifier        = format("%s-replica", var.name)
   identifier_prefix = local.identifier_prefix
 
   engine            = null
@@ -385,7 +349,7 @@ resource "aws_db_instance" "read" {
   snapshot_identifier       = var.snapshot_identifier
   copy_tags_to_snapshot     = var.copy_tags_to_snapshot
   skip_final_snapshot       = var.skip_final_snapshot
-  final_snapshot_identifier = module.labels.id
+  final_snapshot_identifier = var.name
 
   performance_insights_enabled          = var.performance_insights_enabled
   performance_insights_retention_period = var.performance_insights_enabled ? var.performance_insights_retention_period : null
@@ -429,10 +393,7 @@ resource "aws_db_instance" "read" {
     }
   }
 
-  tags = merge(
-    module.labels.tags,
-    var.db_instance_read_tags
-  )
+  tags = var.tags
 
   depends_on = [aws_cloudwatch_log_group.this]
 

@@ -421,37 +421,7 @@ variable "db_subnet_group_tags" {
   description = "Additional tags for the DB subnet group"
 }
 
-variable "db_parameter_group_tags" {
-  type        = map(any)
-  default     = {}
-  description = "Additional tags for the  DB parameter group"
-}
-
-variable "db_option_group_tags" {
-  type        = map(any)
-  default     = {}
-  description = "Additional tags for the DB option group"
-}
-
-variable "cloudwatch_log_group_tags" {
-  type        = map(any)
-  default     = {}
-  description = "Additional tags for the cloudwatch log group"
-}
-
-variable "mysql_iam_role_tags" {
-  type        = map(any)
-  default     = {}
-  description = "Additional tags for the mysql iam role"
-}
-
-variable "db_instance_this_tags" {
-  type        = map(any)
-  default     = {}
-  description = "Additional tags for the DB instance"
-}
-
-variable "db_instance_read_tags" {
+variable "tags" {
   type        = map(any)
   default     = {}
   description = "Additional tags for the DB instance"
