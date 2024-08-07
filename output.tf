@@ -97,20 +97,20 @@ output "db_instance_cloudwatch_log_groups" {
 
 output "db_parameter_group_id" {
   description = "The db parameter group id"
-  value       = try(aws_db_parameter_group.this[0].id, "")
+  value       = try(aws_db_parameter_group.this.id, "")
 }
 
 output "db_parameter_group_arn" {
   description = "The ARN of the db parameter group"
-  value       = try(aws_db_parameter_group.this[0].arn, "")
+  value       = try(aws_db_parameter_group.this.arn, "")
 }
 
 output "db_subnet_group_id" {
   description = "The db subnet group name"
-  value       = try(aws_db_subnet_group.this[0].id, "")
+  value       = try(aws_db_subnet_group.this.id, "")
 }
 
 output "db_subnet_group_name" {
   description = "The db subnet group name"
-  value       = try(aws_db_subnet_group.this[0].name, "")
+  value       = try(aws_db_subnet_group.this.name, "")
 }
