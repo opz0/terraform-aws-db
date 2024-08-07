@@ -7,11 +7,6 @@ module "labels" {
   repository  = var.repository
 }
 
-resource "random_id" "password" {
-  count       = var.enabled ? 1 : 0
-  byte_length = 20
-}
-
 locals {
 
   identifier_prefix    = var.use_identifier_prefix ? "${var.identifier}-" : null
@@ -25,7 +20,7 @@ locals {
 }
 
 resource "random_id" "snapshot_identifier" {
-  count = var.enabled && !var.skip_final_snapshot ? 1 : 0
+  count = !var.skip_final_snapshot ? 1 : 0
 
   keepers = {
     id = var.identifier
@@ -35,7 +30,7 @@ resource "random_id" "snapshot_identifier" {
 }
 
 resource "aws_db_subnet_group" "this" {
-  count       = var.enabled && var.enabled_db_subnet_group ? 1 : 0
+  count       = var.enabled_db_subnet_group ? 1 : 0
   name        = module.labels.id
   description = local.description
   subnet_ids  = var.subnet_ids
@@ -46,8 +41,6 @@ resource "aws_db_subnet_group" "this" {
 }
 
 resource "aws_db_parameter_group" "this" {
-  count = var.enabled ? 1 : 0
-
   name        = module.labels.id
   description = local.description
   family      = var.family
@@ -73,8 +66,6 @@ resource "aws_db_parameter_group" "this" {
 
 
 resource "aws_db_option_group" "this" {
-  count = var.enabled ? 1 : 0
-
   name                     = module.labels.id
   option_group_description = local.description
   engine_name              = var.engine_name
@@ -236,7 +227,7 @@ data "aws_iam_policy_document" "default" {
 }
 
 resource "aws_db_instance" "this" {
-  count             = var.enabled && var.enabled_read_replica ? 1 : 0
+  count             = var.enabled_read_replica ? 1 : 0
   identifier        = format("%s-%s", module.labels.id, local.engine)
   identifier_prefix = local.identifier_prefix
 
@@ -348,7 +339,7 @@ resource "aws_db_instance" "this" {
 }
 
 resource "aws_db_instance" "read" {
-  count = var.enabled && var.enabled_read_replica && var.enabled_replica ? 1 : 0
+  count = var.enabled_read_replica && var.enabled_replica ? 1 : 0
 
   identifier        = format("%s-replica", module.labels.id)
   identifier_prefix = local.identifier_prefix
@@ -458,7 +449,7 @@ resource "aws_db_instance" "read" {
 }
 
 resource "aws_ssm_parameter" "secret-endpoint" {
-  count = var.enabled && var.ssm_parameter_endpoint_enabled ? 1 : 0
+  count = var.ssm_parameter_endpoint_enabled ? 1 : 0
 
   name        = format("/%s/%s/endpoint", var.environment, var.name)
   description = var.ssm_parameter_description

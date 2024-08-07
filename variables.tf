@@ -34,12 +34,6 @@ variable "delimiter" {
   description = "Delimiter to be used between `organization`, `environment`, `name` and `attributes`."
 }
 
-variable "enabled" {
-  type        = bool
-  default     = true
-  description = "Whether to create this resource or not?"
-}
-
 variable "identifier" {
   type        = string
   default     = ""
