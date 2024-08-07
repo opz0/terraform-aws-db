@@ -248,8 +248,8 @@ resource "aws_db_instance" "this" {
 
   vpc_security_group_ids = length(var.sg_ids) < 1 ? aws_security_group.default[*].id : var.sg_ids
   db_subnet_group_name   = local.db_subnet_group_name
-  parameter_group_name   = join("", aws_db_parameter_group.this.name)
-  option_group_name      = join("", aws_db_option_group.this.name)
+  parameter_group_name   = aws_db_parameter_group.this.name
+  option_group_name      = aws_db_option_group.this.name
   network_type           = var.network_type
 
   availability_zone   = var.availability_zone
@@ -358,8 +358,8 @@ resource "aws_db_instance" "read" {
 
   vpc_security_group_ids = length(var.sg_ids) < 1 ? aws_security_group.default[*].id : var.sg_ids
   db_subnet_group_name   = aws_db_subnet_group.this.id
-  parameter_group_name   = join("", aws_db_instance.this[*].parameter_group_name)
-  option_group_name      = join("", aws_db_instance.this[*].option_group_name)
+  parameter_group_name   = aws_db_instance.this.parameter_group_name
+  option_group_name      = aws_db_instance.this.option_group_name
   network_type           = var.network_type
 
   availability_zone   = var.availability_zone
