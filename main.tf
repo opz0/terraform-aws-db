@@ -1,5 +1,4 @@
 locals {
-
   identifier_prefix    = var.use_identifier_prefix ? "${var.identifier}-" : null
   db_subnet_group_name = aws_db_subnet_group.this.id
 
@@ -310,7 +309,7 @@ resource "aws_db_instance" "read" {
   instance_class    = var.replica_instance_class
   allocated_storage = var.allocated_storage
   storage_type      = var.storage_type
-  storage_encrypted = var.storage_encrypted
+  storage_encrypted = true
   license_model     = var.license_model
 
   db_name                             = null

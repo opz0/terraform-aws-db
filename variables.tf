@@ -31,7 +31,7 @@ variable "allocated_storage" {
 
 variable "storage_type" {
   type        = string
-  default     = null
+  default     = "gp3"
   description = "One of 'standard' (magnetic), 'gp2' (general purpose SSD), 'gp3' (new generation of general purpose SSD), or 'io1' (provisioned IOPS SSD). The default is 'io1' if iops is specified, 'gp2' if not. If you specify 'io1' or 'gp3' , you must also include a value for the 'iops' parameter"
 
 }
@@ -40,12 +40,6 @@ variable "storage_throughput" {
   type        = number
   default     = null
   description = "Storage throughput value for the DB instance. This setting applies only to the `gp3` storage type. See `notes` for limitations regarding this variable for `gp3`"
-}
-
-variable "storage_encrypted" {
-  type        = bool
-  default     = true
-  description = "Specifies whether the DB instance is encrypted"
 }
 
 variable "replicate_source_db" {
