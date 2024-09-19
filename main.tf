@@ -203,7 +203,7 @@ resource "aws_db_instance" "this" {
   license_model     = var.license_model
 
   db_name                             = var.db_name
-  username                            = "opszero"
+  username                            = var.db_username
   manage_master_user_password         = true
   port                                = var.port
   domain                              = var.domain

@@ -102,7 +102,7 @@ variable "db_name" {
   description = "The DB name to create. If omitted, no database is created initially"
 }
 
-variable "username" {
+variable "db_username" {
   type        = string
   default     = "opszero"
   description = "Username for the master DB user"
