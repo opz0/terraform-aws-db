@@ -104,14 +104,8 @@ variable "db_name" {
 
 variable "username" {
   type        = string
-  default     = null
+  default     = "opszero"
   description = "Username for the master DB user"
-}
-
-variable "password" {
-  type        = string
-  default     = null
-  description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file"
 }
 
 variable "port" {
@@ -442,13 +436,13 @@ variable "sg_egress_ipv6_description" {
 
 variable "allowed_ip" {
   type        = list(any)
-  default     = []
+  default     = ["0.0.0.0/0"]
   description = "List of allowed ip."
 }
 
 variable "allowed_ports" {
   type        = list(any)
-  default     = []
+  default     = [-1]
   description = "List of allowed ingress ports"
 }
 
