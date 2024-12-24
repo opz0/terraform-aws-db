@@ -304,7 +304,6 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 | <a name="input_custom_iam_instance_profile"></a> [custom\_iam\_instance\_profile](#input\_custom\_iam\_instance\_profile) | RDS custom iam instance profile | `string` | `null` | no |
 | <a name="input_custom_key_store_id"></a> [custom\_key\_store\_id](#input\_custom\_key\_store\_id) | Custom Key Store ID where the key will be stored. | `string` | `null` | no |
 | <a name="input_customer_master_key_spec"></a> [customer\_master\_key\_spec](#input\_customer\_master\_key\_spec) | Specifies whether the key contains a symmetric key or an asymmetric key pair and the encryption algorithms or signing algorithms that the key supports. Valid values: SYMMETRIC\_DEFAULT, RSA\_2048, RSA\_3072, RSA\_4096, ECC\_NIST\_P256, ECC\_NIST\_P384, ECC\_NIST\_P521, or ECC\_SECG\_P256K1. Defaults to SYMMETRIC\_DEFAULT. | `string` | `"SYMMETRIC_DEFAULT"` | no |
-| <a name="input_db_family"></a> [db\_family](#input\_db\_family) | The family of the DB parameter group | `string` | `"mysql8.0"` | no |
 | <a name="input_db_instance_read_tags"></a> [db\_instance\_read\_tags](#input\_db\_instance\_read\_tags) | Additional tags for the DB instance | `map(any)` | `{}` | no |
 | <a name="input_db_instance_this_tags"></a> [db\_instance\_this\_tags](#input\_db\_instance\_this\_tags) | Additional tags for the DB instance | `map(any)` | `{}` | no |
 | <a name="input_db_name"></a> [db\_name](#input\_db\_name) | The DB name to create. If omitted, no database is created initially | `string` | `null` | no |
