@@ -1,10 +1,10 @@
 provider "aws" {
-  region = "eu-west-1"
+  region = "us-east-2"
 }
 
 module "vpc" {
   source      = "cypik/vpc/aws"
-  version     = "1.0.1"
+  version     = "1.0.2"
   name        = "vpc"
   environment = "test"
   label_order = ["environment", "name"]
@@ -14,14 +14,14 @@ module "vpc" {
 
 module "private_subnets" {
   source      = "cypik/subnet/aws"
-  version     = "1.0.1"
+  version     = "1.0.3"
   name        = "subnets"
   environment = "test"
   label_order = ["name", "environment"]
 
   nat_gateway_enabled = true
 
-  availability_zones = ["eu-west-1a", "eu-west-1b"]
+  availability_zones = ["us-east-2a", "us-east-2b"]
   vpc_id             = module.vpc.id
   type               = "public-private"
   igw_id             = module.vpc.igw_id
@@ -38,7 +38,7 @@ module "postgresql" {
   label_order = ["environment", "name"]
 
   engine            = "postgres"
-  engine_version    = "14.6"
+  engine_version    = "16.3-R3"
   instance_class    = "db.t3.medium"
   allocated_storage = 50
   engine_name       = "postgres"
@@ -66,7 +66,7 @@ module "postgresql" {
   subnet_ids          = module.private_subnets.public_subnet_id
   publicly_accessible = true
 
-  major_engine_version = "14"
+  major_engine_version = "16.3"
 
   deletion_protection = true
 

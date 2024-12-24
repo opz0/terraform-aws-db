@@ -114,3 +114,44 @@ output "db_subnet_group_name" {
   description = "The db subnet group name"
   value       = try(aws_db_subnet_group.this[0].name, "")
 }
+
+output "kms_key_arn" {
+  description = "ARN of the created KMS key."
+  value       = aws_kms_key.default[0].arn
+}
+
+output "kms_key_id" {
+  description = "ID of the created KMS key."
+  value       = aws_kms_key.default[0].id
+}
+
+output "kms_key_policy" {
+  description = "Policy associated with the KMS key."
+  value       = aws_kms_key.default[0].policy
+}
+
+output "kms_key_rotation_enabled" {
+  description = "Indicates whether key rotation is enabled."
+  value       = aws_kms_key.default[0].enable_key_rotation
+}
+
+output "kms_key_multi_region" {
+  description = "Indicates whether the key is a multi-Region key."
+  value       = aws_kms_key.default[0].multi_region
+}
+
+output "ssm_parameter_name" {
+  value       = aws_ssm_parameter.secret-endpoint[0].name
+  description = "The name of the SSM parameter created."
+}
+
+output "ssm_parameter_arn" {
+  value       = aws_ssm_parameter.secret-endpoint[0].arn
+  description = "The ARN of the SSM parameter created."
+}
+
+output "ssm_parameter_value" {
+  value       = aws_ssm_parameter.secret-endpoint[0].value
+  description = "The value of the SSM parameter created."
+  sensitive   = true # Mark as sensitive to avoid exposing secrets in outputs
+}

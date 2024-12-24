@@ -1,10 +1,10 @@
 provider "aws" {
-  region = "eu-west-1"
+  region = "us-east-2"
 }
 
 module "vpc" {
   source      = "cypik/vpc/aws"
-  version     = "1.0.1"
+  version     = "1.0.2"
   name        = "vpc"
   environment = "test"
   label_order = ["environment", "name"]
@@ -14,11 +14,11 @@ module "vpc" {
 
 module "subnets" {
   source             = "cypik/subnet/aws"
-  version            = "1.0.1"
+  version            = "1.0.3"
   name               = "subnets"
   environment        = "test"
   label_order        = ["environment", "name"]
-  availability_zones = ["eu-west-1a", "eu-west-1b"]
+  availability_zones = ["us-east-2a", "us-east-2b"]
   vpc_id             = module.vpc.id
   type               = "public"
   igw_id             = module.vpc.igw_id
@@ -34,8 +34,8 @@ module "mysql" {
   label_order = ["environment", "name"]
 
   engine            = "mysql"
-  engine_version    = "8.0.28"
-  instance_class    = "db.m6i.xlarge."
+  engine_version    = "8.0.39"
+  instance_class    = "db.m6i.xlarge"
   allocated_storage = 5
 
 

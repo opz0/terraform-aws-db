@@ -1,10 +1,10 @@
 provider "aws" {
-  region = "eu-west-1"
+  region = "us-east-2"
 }
 
 module "vpc" {
   source      = "cypik/vpc/aws"
-  version     = "1.0.1"
+  version     = "1.0.2"
   name        = "vpc"
   environment = "test"
   label_order = ["environment", "name"]
@@ -14,12 +14,12 @@ module "vpc" {
 
 module "private_subnets" {
   source              = "cypik/subnet/aws"
-  version             = "1.0.1"
+  version             = "1.0.3"
   name                = "subnets"
   environment         = "test"
   label_order         = ["name", "environment"]
   nat_gateway_enabled = true
-  availability_zones  = ["eu-west-1a", "eu-west-1b"]
+  availability_zones  = ["us-east-2a", "us-east-2b"]
   vpc_id              = module.vpc.id
   type                = "public-private"
   igw_id              = module.vpc.igw_id
@@ -66,7 +66,7 @@ module "oracle" {
 
   major_engine_version = "19"
 
-  deletion_protection                 = true
+  deletion_protection                 = false
   iam_database_authentication_enabled = false
 
   ssm_parameter_endpoint_enabled = true
