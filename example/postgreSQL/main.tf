@@ -8,8 +8,7 @@ module "vpc" {
   name        = "vpc"
   environment = "test"
   label_order = ["environment", "name"]
-
-  cidr_block = "10.0.0.0/16"
+  cidr_block  = "10.0.0.0/16"
 }
 
 module "private_subnets" {
@@ -22,7 +21,7 @@ module "private_subnets" {
   nat_gateway_enabled = true
 
   availability_zones = ["us-east-2a", "us-east-2b"]
-  vpc_id             = module.vpc.id
+  vpc_id             = module.vpc.vpc_id
   type               = "public-private"
   igw_id             = module.vpc.igw_id
   cidr_block         = module.vpc.vpc_cidr_block
@@ -39,8 +38,8 @@ module "postgresql" {
 
   engine            = "postgres"
   engine_version    = "16.3-R3"
-  instance_class    = "db.t3.medium"
-  allocated_storage = 50
+  instance_class    = "db.t4g.micro"
+  allocated_storage = 16
   engine_name       = "postgres"
   storage_encrypted = true
   family            = "postgres14"
@@ -55,7 +54,7 @@ module "postgresql" {
   multi_az           = false
 
 
-  vpc_id        = module.vpc.id
+  vpc_id        = module.vpc.vpc_id
   allowed_ip    = [module.vpc.vpc_cidr_block]
   allowed_ports = [5432]
 
@@ -70,7 +69,5 @@ module "postgresql" {
 
   deletion_protection = true
 
-
   ssm_parameter_endpoint_enabled = true
-
 }

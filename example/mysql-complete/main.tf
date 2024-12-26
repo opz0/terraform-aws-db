@@ -19,7 +19,7 @@ module "subnets" {
   environment        = "test"
   label_order        = ["environment", "name"]
   availability_zones = ["us-east-2a", "us-east-2b"]
-  vpc_id             = module.vpc.id
+  vpc_id             = module.vpc.vpc_id
   type               = "public"
   igw_id             = module.vpc.igw_id
   cidr_block         = module.vpc.vpc_cidr_block
@@ -35,13 +35,11 @@ module "mysql" {
 
   engine            = "mysql"
   engine_version    = "8.0.39"
-  instance_class    = "db.m6i.xlarge"
-  allocated_storage = 5
-
-
-  vpc_id        = module.vpc.id
-  allowed_ip    = [module.vpc.vpc_cidr_block]
-  allowed_ports = [3306]
+  instance_class    = "db.t4g.micro"
+  allocated_storage = 16
+  vpc_id            = module.vpc.vpc_id
+  allowed_ip        = [module.vpc.vpc_cidr_block]
+  allowed_ports     = [3306]
 
   db_name  = "test"
   username = "user"

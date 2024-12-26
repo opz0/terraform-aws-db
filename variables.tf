@@ -648,79 +648,79 @@ variable "skip_destroy" {
 }
 
 variable "log_group_class" {
-  description = "Specifies the log class of the log group. Possible values: STANDARD or INFREQUENT_ACCESS."
   type        = string
   default     = "STANDARD"
+  description = "Specifies the log class of the log group. Possible values: STANDARD or INFREQUENT_ACCESS."
 }
 
 variable "monitoring_role_path" {
-  description = "Path for the IAM role."
   type        = string
   default     = "/"
+  description = "Path for the IAM role."
 }
 
 variable "monitoring_role_max_session_duration" {
-  description = "Maximum session duration for the role in seconds (1 to 12 hours)."
   type        = number
   default     = 3600
+  description = "Maximum session duration for the role in seconds (1 to 12 hours)."
 }
 
 variable "force_detach_policies" {
-  description = "Force detaching any policies the role has before destroying it."
   type        = bool
   default     = false
+  description = "Force detaching any policies the role has before destroying it."
 }
 
 variable "inline_policies" {
-  description = "Map of inline policies to attach to the IAM role."
   type        = map(string)
   default     = {}
+  description = "Map of inline policies to attach to the IAM role."
 }
 
 variable "managed_policy_arns" {
-  description = "List of IAM managed policy ARNs to attach to the IAM role."
   type        = list(string)
   default     = []
+  description = "List of IAM managed policy ARNs to attach to the IAM role."
 }
 
 variable "rotation_period_in_days" {
-  description = "Custom period for key rotation in days (90–2560)."
   type        = number
   default     = 365
+  description = "Custom period for key rotation in days (90–2560)."
 }
 
 variable "bypass_policy_lockout_safety_check" {
-  description = "Whether to bypass the key policy lockout safety check."
   type        = bool
   default     = false
+  description = "Whether to bypass the key policy lockout safety check."
 }
 
 variable "custom_key_store_id" {
-  description = "Custom Key Store ID where the key will be stored."
   type        = string
   default     = null
+  description = "Custom Key Store ID where the key will be stored."
 }
 
 variable "ssm_parameter_allowed_pattern" {
-  description = "Allowed pattern to validate the parameter value."
   type        = string
   default     = ""
+  description = "Allowed pattern to validate the parameter value."
 }
 
 variable "ssm_parameter_data_type" {
-  description = "The data type of the parameter."
   type        = string
   default     = "text"
+  description = "The data type of the parameter."
 }
 
 variable "ssm_parameter_tags" {
-  description = "A map of tags to assign to the SSM parameter."
   type        = map(string)
   default     = {}
+  description = "A map of tags to assign to the SSM parameter."
 }
 
 variable "ssm_parameter_tier" {
-  description = "The tier of the SSM parameter (Standard, Advanced, Intelligent-Tiering)."
   type        = string
   default     = "Standard"
+  description = "The tier of the SSM parameter (Standard, Advanced, Intelligent-Tiering)."
 }

@@ -73,7 +73,6 @@ resource "aws_db_parameter_group" "this" {
   }
 }
 
-
 resource "aws_db_option_group" "this" {
   count                    = var.enabled ? 1 : 0
   name                     = module.labels.id

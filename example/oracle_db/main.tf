@@ -20,7 +20,7 @@ module "private_subnets" {
   label_order         = ["name", "environment"]
   nat_gateway_enabled = true
   availability_zones  = ["us-east-2a", "us-east-2b"]
-  vpc_id              = module.vpc.id
+  vpc_id              = module.vpc.vpc_id
   type                = "public-private"
   igw_id              = module.vpc.igw_id
   cidr_block          = module.vpc.vpc_cidr_block
@@ -37,9 +37,9 @@ module "oracle" {
 
   engine            = "oracle-ee"
   engine_version    = "19"
-  instance_class    = "db.t3.medium"
+  instance_class    = "db.m5.large"
   engine_name       = "oracle-ee"
-  allocated_storage = 50
+  allocated_storage = 16
   storage_encrypted = true
   family            = "oracle-ee-19"
 
@@ -53,7 +53,7 @@ module "oracle" {
   multi_az           = false
 
 
-  vpc_id        = module.vpc.id
+  vpc_id        = module.vpc.vpc_id
   allowed_ip    = [module.vpc.vpc_cidr_block]
   allowed_ports = [1521]
 
@@ -66,9 +66,8 @@ module "oracle" {
 
   major_engine_version = "19"
 
-  deletion_protection                 = false
+  deletion_protection                 = true
   iam_database_authentication_enabled = false
 
   ssm_parameter_endpoint_enabled = true
-
 }

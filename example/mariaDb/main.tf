@@ -36,9 +36,9 @@ module "mariadb" {
 
   engine            = "MariaDB"
   engine_version    = "10.11.9" # Replace with an available version
-  instance_class    = "db.t4g.medium"
+  instance_class    = "db.t4g.micro"
   engine_name       = "MariaDB"
-  allocated_storage = 20
+  allocated_storage = 16
 
   db_name  = "test"
   username = "user"
@@ -48,7 +48,6 @@ module "mariadb" {
   maintenance_window = "Mon:00:00-Mon:03:00"
   backup_window      = "03:00-06:00"
   multi_az           = false
-
 
   vpc_id        = module.vpc.vpc_id
   allowed_ip    = [module.vpc.vpc_cidr_block]
@@ -65,7 +64,7 @@ module "mariadb" {
 
   major_engine_version = "10.11"
 
-  deletion_protection = false
+  deletion_protection = true
 
   ssm_parameter_endpoint_enabled = true
 }

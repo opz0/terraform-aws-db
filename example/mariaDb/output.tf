@@ -63,11 +63,6 @@ output "db_instance_domain_iam_role_name" {
   description = "The IAM role name used for managing Active Directory domain integration for the MariaDB instance."
 }
 
-output "db_instance_password" {
-  value       = module.mariadb.db_instance_password
-  description = "The password for the MariaDB instance. Use caution when exposing this sensitive information."
-}
-
 output "db_instance_cloudwatch_log_groups" {
   value       = module.mariadb.db_instance_cloudwatch_log_groups
   description = "The CloudWatch log groups associated with the MariaDB instance."
